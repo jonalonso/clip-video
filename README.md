@@ -9,7 +9,7 @@
 3. renders each one as a 1080×1920 clip with a face-following crop, word-by-word captions and a hook title,
 4. writes a title, a description and hashtags for **YouTube Shorts, TikTok, Instagram Reels and Facebook Reels**, checks each against that platform's character and hashtag limits, and puts it all in one copy-paste file.
 
-It's a free, local alternative to OpusClip-style tools. The paid step of those apps is an LLM reading your transcript; here Claude does it inside your existing Claude Code session.
+It's a local alternative to OpusClip-style tools. The paid step of those apps is an LLM reading your transcript; here Claude does it inside your existing Claude Code session.
 
 ## What you get
 
@@ -50,23 +50,16 @@ On first run the plugin installs what's missing: `yt-dlp`, `uv` and `ffmpeg-full
 
 ## Install
 
-In Claude Code:
+**Buyers:** get clip-video from its listing on [Agensi](https://www.agensi.io). This repository is private.
+
+**Author (private use):**
 
 ```text
 /plugin marketplace add jonalonso/clip-video
 /plugin install clip-video@jonalonso
 ```
 
-<details>
-<summary>Manual install (no plugin)</summary>
-
-```bash
-git clone https://github.com/jonalonso/clip-video.git
-cp -R clip-video/skills/clip-video ~/.claude/skills/
-```
-
-Restart Claude Code, then use `/clip-video` instead of `/clip-video:clip-video`.
-</details>
+Or copy `skills/clip-video` into `~/.claude/skills/`.
 
 ## Usage
 
@@ -129,10 +122,6 @@ Only clip videos you own or have permission to use. Many creators run official c
 - [YuNet face detector](https://github.com/opencv/opencv_zoo/tree/main/models/face_detection_yunet) from OpenCV Zoo, MIT © 2020 Shiqi Yu
 - Fonts [Anton](https://fonts.google.com/specimen/Anton) and [Poppins](https://fonts.google.com/specimen/Poppins), SIL Open Font License 1.1
 
-## Support
-
-If this plugin saved you time or helped your channel grow, you can [buy me a coffee ☕](https://www.paypal.com/donate/?hosted_button_id=9VHZSB7CY5Q7S). Thank you!
-
 ## License
 
-[MIT](LICENSE) © 2026 [Jonathan Salazar](https://github.com/jonalonso). Bundled fonts and the face model keep their own licenses (see `LICENSE`).
+Proprietary © 2026 [Jonathan Salazar](https://github.com/jonalonso). All rights reserved; see [LICENSE](LICENSE). The bundled fonts (OFL) and the YuNet face model (MIT) keep their own licenses.

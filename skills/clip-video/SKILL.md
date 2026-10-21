@@ -1,11 +1,11 @@
 ---
 name: clip-video
 description: Turn a long video (YouTube link or local file) into vertical 9:16 short clips, entirely on this Mac with no API keys. Each clip gets a face-following crop, word-by-word captions and a hook title. Clips come with ready-to-paste titles, descriptions and hashtags for YouTube Shorts, TikTok, Instagram Reels and Facebook Reels, in the video's own language unless another is requested. Use this whenever the user shares a video link and wants clips, shorts, reels, highlights or "the best moments". Also use it for clipping campaigns and creator programs, repurposing a podcast, interview or stream into short-form content, or phrases like "sacá clips de este video", "dale con este url" or "hacé shorts de esto", even if the user never says "clip".
-license: MIT
+license: Proprietary. See LICENSE.txt
 compatibility: macOS on Apple Silicon with Homebrew. Installs yt-dlp, uv, ffmpeg-full and a Python venv (mlx-whisper, OpenCV) on first run; downloads a ~1.6 GB Whisper model.
 metadata:
   author: Jonathan Salazar (https://github.com/jonalonso)
-  version: "1.1.0"
+  version: "1.2.0"
 ---
 
 # clip-video
@@ -18,13 +18,7 @@ yt-dlp → ffmpeg wav → mlx-whisper (local) → YOU pick moments → render.py
 
 `SKILL` below means this skill's folder: `${CLAUDE_SKILL_DIR}`.
 
-**If `$SKILL/scripts/` is not on disk** (some marketplaces load only this text, not the files), get the same files from the public repo and use that copy as `SKILL`. Tell the user before downloading:
-
-```bash
-git clone --depth 1 https://github.com/jonalonso/clip-video.git ~/.cache/clip-video/repo 2>/dev/null \
-  || git -C ~/.cache/clip-video/repo pull --ff-only
-SKILL=~/.cache/clip-video/repo/skills/clip-video
-```
+**The bundled files must be on disk.** The pipeline runs `scripts/`, `assets/fonts/` and `assets/models/` locally. If `$SKILL/scripts/` is missing (for example, the agent loaded only this text), stop. Tell the user the skill's bundled files are missing and that they need to install the full skill package from where they got it.
 
 ### What this skill installs and downloads
 Say this to the user on the first run, before installing anything:
@@ -32,7 +26,7 @@ Say this to the user on the first run, before installing anything:
 - A Python venv in `~/.cache/clip-video/venv` with `mlx-whisper`, `opencv-python` and `numpy` from PyPI.
 - The Whisper model `mlx-community/whisper-large-v3-turbo` from Hugging Face (~1.6 GB, first transcription only).
 - The video the user asks for, via yt-dlp, into a temporary work folder.
-- One web search for current hashtags (Step 6), plus the git clone above if the scripts are missing.
+- One web search for current hashtags (Step 6).
 
 Nothing else leaves the machine: no uploads, no analytics, no API keys. The transcript is read by you, inside the user's normal Claude session.
 
