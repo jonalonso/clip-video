@@ -1,7 +1,7 @@
 {
   "name": "clip-video",
   "description": "Turn long videos into vertical 9:16 clips with face tracking, word-by-word captions and hook titles, plus ready-to-paste titles, descriptions and hashtags for YouTube Shorts, TikTok, Instagram Reels and Facebook Reels. Runs locally on Apple Silicon, no API keys.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": {
     "name": "Jonathan Salazar",
     "url": "https://github.com/jonalonso"
