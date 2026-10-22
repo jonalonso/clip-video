@@ -12,6 +12,7 @@ clips.json: [{"id": "01", "start": 123.4, "end": 170.2, "hook": "..."},
 "fixes" replaces misheard caption words in that clip only.
 """
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -203,8 +204,19 @@ def fix_word(word, fixes):
         core, trail = core[:-1], core[-1] + trail
     for wrong, right in fixes.items():
         if core.lower() == wrong.lower():
-            return " " + right + trail
+            return " " + right + trail if right else ""
     return word
+
+
+def merge_split_numbers(words):
+    """Whisper splits "100,000" into "100" + ",000"; join them back into one caption word."""
+    merged = []
+    for w in words:
+        if merged and re.match(r"^[,.]\d{3}", w["word"].strip()) and re.search(r"\d$", merged[-1]["word"].strip()):
+            merged[-1] = dict(merged[-1], word=merged[-1]["word"].rstrip() + w["word"].strip(), end=w["end"])
+        else:
+            merged.append(w)
+    return merged
 
 
 def snap(words, start, end):
@@ -282,7 +294,8 @@ def main():
     only = set(sys.argv[5:])
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-    words = [w for seg in json.loads(Path(transcript).read_text())["segments"] for w in seg.get("words", [])]
+    words = merge_split_numbers(
+        [w for seg in json.loads(Path(transcript).read_text())["segments"] for w in seg.get("words", [])])
     clips = json.loads(Path(clips_path).read_text())
     W, H, fps_str, fps = probe(src)
     log_path = out_dir / "render_log.json"

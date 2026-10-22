@@ -5,7 +5,7 @@ license: Proprietary. See LICENSE.txt
 compatibility: macOS on Apple Silicon with Homebrew. Installs yt-dlp, uv, ffmpeg-full and a Python venv (mlx-whisper, OpenCV) on first run; downloads a ~1.6 GB Whisper model.
 metadata:
   author: Jonathan Salazar (https://github.com/jonalonso)
-  version: "1.2.0"
+  version: "1.2.1"
 ---
 
 # clip-video
@@ -152,7 +152,7 @@ $PYTHON -I $SKILL/scripts/build_report.py "$OUT"
 It counts characters the strict way, checks every limit and hashtag rule, and writes `CLIPS.md` with each final text in a copyable block. Fix every ERROR. Fix WARN lines (under target) with more real content, not padding. If a clip genuinely has nothing more to say, a warning is acceptable.
 
 Lessons from the first real run:
-- **First drafts come out 30–40% short, even when you know this.** Both test runs missed the targets by about a third. Plan the length by paragraph count: a 2–3 sentence paragraph is about 170–200 characters, so YouTube needs about 9 paragraphs, Instagram 10–11 short ones, and TikTok and Facebook about 6 each, counting the hook line, the call to action and the credit line. Write one clip, run `build_report.py`, and only then write the rest. The material that fills the space honestly is the rest of the video: numbers from other days (weigh-ins, prizes), exact quotes from before and after the clip, what the moment sets up next. Re-reading the transcript beats inventing filler.
+- **First drafts come out 30–40% short, even when you know this.** Both test runs missed the targets by about a third. Three runs in a row came in about a third short, and the paragraphs you write average closer to 100 characters than to 200. Plan on roughly 13 paragraphs for YouTube, 16–17 for Instagram and about 10 each for TikTok and Facebook, counting the hook line, the call to action and the credit line. Write one clip, run `build_report.py`, calibrate, and only then write the rest. Expect two or three rounds of real-content additions anyway; that's normal. The material that fills the space honestly is the rest of the video: numbers from other days (weigh-ins, prizes), exact quotes from before and after the clip, what the moment sets up next. Re-reading the transcript beats inventing filler.
 - **Only attribute a quote when you have seen who says it.** Whisper gives words, not speakers. "Love you, can't talk to you right now" was first written as Trey's line without checking. Either confirm the speaker on a frame at that timestamp, or quote it without a name.
 - **Health, money and legal claims are attributed** ("according to the doctor in the video") and health content gets a one-line "not medical advice".
 - Every fact has to come from the transcript or from frames you looked at, because these texts go out under the user's account.
