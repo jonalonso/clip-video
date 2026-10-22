@@ -9,7 +9,8 @@ Usage: python render.py <source.mp4> <transcript.json> <clips.json> <out_dir> [c
 clips.json: [{"id": "01", "start": 123.4, "end": 170.2, "hook": "..."},
              {"id": "02", "parts": [[300.0, 320.5], [331.2, 360.0]], "hook": "...",
               "fixes": {"train": "Trey"}}, ...]
-"fixes" replaces misheard caption words in that clip only.
+"fixes" replaces misheard caption words in that clip only. "caption_y" (default 1420, of 1920)
+moves the captions up or down when they would cover text burned into the source.
 """
 import json
 import re
@@ -159,7 +160,7 @@ def group_words(words, max_words=3, max_chars=14, max_gap=0.5):
     return groups
 
 
-def build_ass(parts, hook, path):
+def build_ass(parts, hook, path, caption_y=CAPTION_Y):
     """parts: [(words shifted to clip time, part end in clip time), ...]"""
     hi = r"{\c&H0000E5FF&\fscx112\fscy112}"
     lo = r"{\c&H00FFFFFF&\fscx100\fscy100}"
@@ -192,7 +193,7 @@ def build_ass(parts, hook, path):
                     e = min(next_start, w["end"] + 0.4)
                 body = " ".join(f"{hi}{t}{lo}" if j == wi else t for j, t in enumerate(texts))
                 lines.append(f"Dialogue: 0,{ass_time(s)},{ass_time(e)},Cap,,0,0,0,,"
-                             rf"{{\an5\pos({OUT_W // 2},{CAPTION_Y})}}{body}")
+                             rf"{{\an5\pos({OUT_W // 2},{caption_y})}}{body}")
     Path(path).write_text("\n".join(lines) + "\n")
 
 
@@ -246,7 +247,7 @@ def render_clip(src, words, clip, out_dir, W, H, fps_str, fps):
         cw, x0, layout = plan(n, cuts, faces, W, H, fps)
         plans.append((n, x0, layout))
         offset += t1 - t0
-    build_ass(ass_parts, clip.get("hook"), ass_path)
+    build_ass(ass_parts, clip.get("hook"), ass_path, clip.get("caption_y", CAPTION_Y))
     all_layout = np.concatenate([p[2] for p in plans])
     fit_share = float(np.mean(all_layout == "fit")) if len(all_layout) else 0.0
     print(f"{name}: {len(ranges)} part(s), {offset:.1f}s, fit={fit_share:.0%}", flush=True)

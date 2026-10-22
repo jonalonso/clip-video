@@ -5,7 +5,7 @@ license: Proprietary. See LICENSE.txt
 compatibility: macOS on Apple Silicon with Homebrew. Installs yt-dlp, uv, ffmpeg-full and a Python venv (mlx-whisper, OpenCV) on first run; downloads a ~1.6 GB Whisper model.
 metadata:
   author: Jonathan Salazar (https://github.com/jonalonso)
-  version: "1.2.1"
+  version: "1.2.2"
 ---
 
 # clip-video
@@ -118,6 +118,9 @@ Each clip comes out at 1080×1920 H.264/AAC. Faces are tracked per shot. Wide sh
    $PYTHON -I $SKILL/scripts/contact_sheet.py "$OUT" "$WORK/review"
    ```
    Look for faces cut off by the crop, captions colliding with the creator's own burned-in text, a wrong hook, or an empty or black clip. Fix the clip list and re-render what's wrong.
+   - **Captions over burned-in text:** gaming and stream videos often put facecams with name plates, scoreboards or HUDs exactly where the captions go (y=1420). Measure a full-size frame and set `"caption_y"` for those clips; in the Call of Duty run, name plates sat around 1340–1430 and the squad list started near 1600, so 1515 fit between them.
+   - **Burned-in name plates are the best source for names.** In that run they gave the real names (Tareq and Majd, MrDaft, TimTheTatman) where Whisper wrote "Drake and Madge" and "Daph". Read them off the contact sheets before writing any name.
+   - **Sponsor overlays:** if a frame shows an ad graphic (a QR code, a promo card), cut that part out of the clip.
 3. You cannot hear audio. Never claim the audio sounds right. Tell the user to listen, especially at the joins of multi-part clips.
 
 ## Step 6: Titles, descriptions and hashtags
